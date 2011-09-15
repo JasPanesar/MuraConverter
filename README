@@ -1,0 +1,8 @@
+Mura Converter
+------------------------------------------------------------------------------------------
+
+INTRODUCTION
+This converter is designed to take data from another CMS and import it into a new Mura site
+
+CURRENTLY SUPPORTED IMPORT FORMATS
+Wordpress XML
