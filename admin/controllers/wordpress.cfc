@@ -11,6 +11,7 @@
 		<cfset var parentContent = "" />
 		<cfset var content = "" />
 		<cfset var allParentsFound = false />
+		<cfset var categoryList = "" />
 		
 		<cfif not directoryExists(importDirectory)>
 			<cfset directoryCreate(importDirectory) />
@@ -44,16 +45,22 @@
 							content.setRemoteID(item["wp:post_id"].xmlText);
 							content.setApproved(1);
 							content.setSiteID(rc.$.event('siteID'));
-							try {
-								content.save();	
-							} catch (any e) {
-								writeDump(content.getTitle());
-								writeDump(content.getParentID());
-								writeDump(content.getBody());
-								writeDump(content.getRemoteID());
-								writeDump(e);
-								abort;
+							
+							categoryList = "";
+							
+							for(var i=1; i<=arrayLen(item.category); i++) {
+								var category = rc.$.getBean("category").loadBy(name="#item.category[i].xmlText#");
+								if(category.getIsNew()) {
+									category.setName(item.category[i].xmlText);
+									
+									category.save();	
+								}
+								categoryList = listAppend(categoryList, category.getCategoryID());
 							}
+							
+							content.setCategories(categoryList);
+							
+							content.save();	
 						}
 					}
 				</cfscript>
