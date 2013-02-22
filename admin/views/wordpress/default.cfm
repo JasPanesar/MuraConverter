@@ -3,7 +3,8 @@
 
     <h3>Step 1: Create upload location in Mura if needed</h3>
     <blockquote>
-    <p>Select the site you'd like to upload into.  Current SiteID: [#rc.siteid#]. <br/>
+    <p>Select the site you'd like to upload into.<br/>
+    Current SiteID is: [#rc.siteid#]. <br/><br/>
     If you haven't created a Blog or Other type of Folder/Portal in the <a href="http://localhost/damaag/admin/index.cfm?muraAction=cArch.list&siteid=#rc.siteid#&moduleid=00000000000000000000000000000000000">Site Manager</a>, go do that first and then return here.</p>
     </blockquote>
 
