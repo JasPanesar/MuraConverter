@@ -70,6 +70,7 @@
 
                             //content.setReleaseDate(item["wp.post_date"].xmlText);
                             content.setURLTitle(item["wp:post_name"].xmlText);
+                            content.setCredits(item["dc:creator"].xmlText);
 
 
                             /*  add wp:post_date -- not quite woring yet
@@ -79,6 +80,7 @@
 
                             content.setApproved(1);							
                             content.setSiteID(rc.$.event('siteID'));
+                            
 							
 							categoryList = "";
 							
