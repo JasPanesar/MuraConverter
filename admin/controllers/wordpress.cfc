@@ -4,17 +4,11 @@
 		<cfargument name="rc" />
 		<!---<cfparam name="rc.save" default="false" />
         <cfparam name="rc.delete" default="false" />--->
-               <!--- get all the content items of the current site --->
 
 		<cfscript>
-       
             rc.siteid = rc.$.event('siteID');
-
             rc.KidsIterator = rc.$.getBean("content").loadBy(contentID="00000000000000000000000000000000001").getKidsQuery();
-
             rc.parentContent = rc.$.getBean("content").loadBy(contentID="00000000000000000000000000000000001");
- 
-
 		</cfscript>
 	</cffunction>
 
@@ -31,7 +25,7 @@
 		<cfset var allParentsFound = false />
 		<cfset var categoryList = "" />
 
-        <cfparam name = "form.contentID" default = "00000000000000000000000000000000001" />
+        <cfparam name = "form.contentID" default = "00000000000000000000000000000000001" />   <!--- used on form post --->
 
 		<cfif not directoryExists(importDirectory)>
 			<cfset directoryCreate(importDirectory) />
@@ -78,25 +72,9 @@
                             content.setURLTitle(item["wp:post_name"].xmlText);
 
 
-                            /* jas edits start
-
-                            // preserve your drafts and don't auto post everything
-                            if(item["wp:status"].xmlText IS "publish") {
-                                content.setIsNav = 1;
-                                content.setDisplay = 1; 
-                                } else { 
-                                //set everythign else to not display or be in the nav
-                                content.setIsNav = 0;
-                                content.setDisplay = 0;
-                                }
-                                 
-                            // add wp:post_date 
+                            /*  add wp:post_date -- not quite woring yet
                             content.setReleaseDate("{ts '" & item["wp.post_date"].xmlText & "'}");
-
-                            // add wp:post_name to the seo title of the article                          
-                            content.setURLTitle(item["wp:post_name".xmlText);
-
-                            // jas edits end s */
+                            */
 
 
                             content.setApproved(1);							
@@ -104,7 +82,8 @@
 							
 							categoryList = "";
 							
-							/*for(var i=1; i<=arrayLen(item.category); i++) {
+                            /* categories are not working for my import -- my WP might be too old.  Feel free to uncomment if you're using something recent
+                            for(var i=1; i<=arrayLen(item.category); i++) {
 								var category = rc.$.getBean("category").loadBy(name="#item.category[i].xmlText#");
 								if(category.getIsNew()) {
 									category.setName(item.category[i].xmlText);
