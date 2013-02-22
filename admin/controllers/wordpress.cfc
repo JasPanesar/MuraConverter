@@ -68,7 +68,7 @@
                                 content.setDisplay = 0;
                                 }
 
-                            //content.setReleaseDate(item["wp.post_date"].xmlText);
+                            content.setReleaseDate(item["pubdate"].xmlText);
                             content.setURLTitle(item["wp:post_name"].xmlText);
                             content.setCredits(item["dc:creator"].xmlText);
 
