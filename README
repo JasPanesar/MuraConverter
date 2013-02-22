@@ -6,3 +6,14 @@ This converter is designed to take data from another CMS and import it into a ne
 
 CURRENTLY SUPPORTED IMPORT FORMATS
 Wordpress XML
+
+
+WHAT'S NEW
+
+Feb 22/2013
+- Added selection a location in Mura under which to import Wordpress blog posts
+- Added migration of Wordpress friendly SEO url to Mura's SEO title
+- Added migration of Wordpress Author to Mura Credits field
+- Added migration of setting published posts as visible in mura, and leaving drafts as hidden and out of Mura Navigation
+- Updated Wordpress screen with detailed instructions for Mura Administrators
+
