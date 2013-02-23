@@ -1,7 +1,11 @@
 <cfoutput>
-    <h2>Wordpress Import</h4>	
+    <h2>Wordpress Import</h4>
+    <blockquote>
+    <p>Before you begin, please be aware that exporting the XML file of your posts from Wordpress might result in a truncated/incomplete file if the WP export script request times out.  The chances of this goes up if you have a lot of posts, or a ton of spam comments on your posts which increase the size of the file over a few megs. The broken xml file that WP outputs, as a result will not be able to be imported into Mura, and this Mura Convertor will give you messages like the XML structure is missing something, etc.  Opening the XML file will reveal that you are indeed missing things like the /xml and /channel from the end of the XML file.<br/><br/>
+    To ensure you get a complete XML file out of Wordpress you may have to insert set_time_limit(1000); at the top of the export_wp() function in /wp-admin/includes/export.php.  If this does not work you may also have to increase your Apache webserver timeout using the Timeout Directive, to Timeout 1000 in your vhost config or apache config.  </P>
+    </blockquote>
 
-    <h3>Step 1: Create upload location in Mura if needed</h3>
+    <h3>Step 1: Create upload location in Mura site manager if needed</h3>
     <blockquote>
     <p>Select the site you'd like to upload into.<br/>
     Current SiteID is: [#rc.siteid#]. <br/><br/>
