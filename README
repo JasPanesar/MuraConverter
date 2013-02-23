@@ -10,8 +10,15 @@ Wordpress XML
 
 WHAT'S NEW
 
+Feb 23/2013
+
+- Added selector to import comments or not
+- Merged in devel branch features for importing comments (not tested or made visible yet while testing), this should be enough to merge this out.
+
 Feb 22/2013
-- Added selection a location in Mura under which to import Wordpress blog posts
+
+- Added support for importing WP pubdate into Mura Content Release Dates
+- Added selecting a location in Mura under which to import Wordpress blog posts
 - Added migration of Wordpress friendly SEO url to Mura's SEO title
 - Added migration of Wordpress Author to Mura Credits field
 - Added migration of setting published posts as visible in mura, and leaving drafts as hidden and out of Mura Navigation

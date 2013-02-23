@@ -24,7 +24,18 @@
       </select>
     </blockquote>
 
-    <h3>Step 3: Select your Wordpress XML file to upload</h3>
+    <h3>Step 3: Import Options</h3>
+    <blockquote>
+    <p>
+    Import Wordpress blog categories: <input type = "checkbox" name = "importCategories" value = "true" checked /><br/>
+        Note: Categories may not import in older versions of Wordpress
+    <!--- this isn't quite working yet, just merged from devel for the time being
+    <br/><br/>
+    Import Wordpress blog comments: <input type = "checkbox" name = "importComments" value = "true" checked />--->
+    </p>
+    </blockquote>
+
+    <h3>Select your Wordpress XML file to upload</h3>
     <blockquote>
 		<input type="file" name="wordpressXML" />
         <button type="submit">Upload + Import!</button>
