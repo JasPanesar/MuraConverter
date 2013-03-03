@@ -31,7 +31,6 @@
         <cfparam name = "form.importComments"   default = "false" />
 
 
-
 		<cfif not directoryExists(importDirectory)>
 			<cfset directoryCreate(importDirectory) />
 		</cfif>
@@ -80,28 +79,25 @@
                             content.setSiteID(rc.$.event('siteID'));
                             content.setBody( cleanWPPost(  item["content:encoded"].xmlText ) );
 
-
-                                            
                             // Set the post status in WP to decide whether to make the post visible in Wordpress or not.
                             if(item["wp:status"].xmlText IS "publish") {
                                     content.setIsNav(1);
                                     content.setDisplay(1); 
                                 } else if(item["wp:status"].xmlText IS "draft") { 
-                                    //set everythign else to not display or be in the nav
+                                    //don't display or be in the nav
                                     content.setIsNav(0);
                                     content.setDisplay(0);
                                 } else {
-                                       //set everythign else to not display or be in the nav
                                     content.setIsNav(0);
                                     content.setDisplay(0);
                                 }                                 
 
-                       
+                            
+
+
 							// This will be used to set up categories if needed
 							categoryList = "";
-
-
-                            
+                          
                             // Conditionally attempt importing categories if it is selected.  This may not work in older versions of WP.
                             if(form.importCategories is "true") {
                                 // Loop over the categories from WP to build out the categoryList to set in the content
@@ -123,6 +119,9 @@
 
                                 // Loop over the comments that were assigned to this wp node
                                 for(var i=1; i<=arrayLen(item["wp:comment"]); i++) {
+                                    
+                                    // TODO: Add something here to filter out the spam comments -- don't want to import those.
+
 
                                     // We look to load the comment first before adding it.  We try to find one where the contentID & the date entered match.
                                     var comment = rc.$.getBean("comment").loadBy(entered="#item["wp:comment"][i]["wp:comment_date"].xmlText#", contentID=content.getContentID());
@@ -131,7 +130,7 @@
                                     if(!len(comment.getComments()) && len(item["wp:comment"][i]["wp:comment_content"].xmlText)) {
 
                                         // Set the simple values of the comment
-                                        comment.setContentID(content.getContentID());
+                                        comment.setContentID    (content.getContentID());
                                         comment.setIsApproved(1);
                                         comment.setSiteID(rc.$.event('siteID'));
                                         comment.setName(item["wp:comment"][i]["wp:comment_author"].xmlText);
@@ -158,11 +157,18 @@
                 <cfset rc.content = content />
 
 			</cfloop>
-		</cfloop>
+        </cfloop>
+
+        <cfset rc.siteConfig = rc.$.siteConfig()/>
+        <cfset rc.expandpath = expandpath( "./" ) />
 		
     </cffunction>
 
 
+
+
+
+    <!--- functions for this cfc that really should be sitting somewhere else. --->
 
     <cfscript>
 
@@ -177,32 +183,34 @@
 
 
 
-    function cleanWPPost (str) {
+    function cleanWPPost (str,rc) {
+        /**
+            Cleans up Linux generated WordPress XML files that have encoding issues when it comes to linebreaks, etc that show up as extended ascii characters in the XML.
+            Since the majority of Wordpress installations are linux based, this type of scenario may come up pretty regularly. 
+            This isn't the cleanest or prettiest way to do this, until all the error cases are found we can collect them here and then hit them together.
+            * 
+        * @param inString      String to format. (Required) 
+        * @return Returns a string. 
+         */
 
 
-    /**
-        Cleans up Linux generated WordPress XML files that have encoding issues when it comes to linebreaks, etc that show up as extended ascii characters in the XML.
-        Since the majority of Wordpress installations are linux based, this type of scenario may come up pretty regularly. 
-    
-    * 
-    * @param inString      String to format. (Required) 
-    * @return Returns a string. 
-     */
+        arguments.str = ReReplace( arguments.str , "\r" , "" , "ALL" );         // Remove any \r characters (represented as $ in vim) Seems to be needed
+        arguments.str = ReReplace( arguments.str , "\n" , "<br/>" , "ALL" );    // This finds all embedded line breaks inside the file and inserts proper breaks. (represented as ^M in vim).  Seems to be needed
+
+        arguments.str = ReReplace( arguments.str , "&dagger;" , "" , "ALL" );   // remove all &dagger; references that seem to consistently appear from a unix wordpress xml export.
+        arguments.str = ReReplace( arguments.str , "†" , "" , "ALL" );          // remove all &dagger; references that seem to consistently appear from a unix wordpress xml export.
+
+        arguments.str = ReReplace( arguments.str , "¬" , "" , "ALL" );          // remove all &not; references that seem to consistently appear from a unix wordpress xml export.
+        arguments.str = ReReplace( arguments.str , "&not;" , "" , "ALL" );      // remove all &not; references that seem to consistently appear from a unix wordpress xml export.
 
 
-        str = ReReplace( arguments.str , "\r" , "" , "ALL" );         // Remove any \r characters (represented as $ in vim) Seems to be needed
-        str = ReReplace( arguments.str , "\n" , "<br/>" , "ALL" );    // This finds all embedded line breaks inside the file and inserts proper breaks. (represented as ^M in vim).  Seems to be needed
+        //arguments.str = importImages(arguments.str);
 
-         str = ReReplace( arguments.str , "&dagger;" , "" , "ALL" );   // remove all &dagger; references that seem to consistently appear from a unix wordpress xml export.
-        str = ReReplace( arguments.str , "†" , "" , "ALL" );          // remove all &dagger; references that seem to consistently appear from a unix wordpress xml export.
-
-        str = ReReplace( arguments.str , "¬" , "" , "ALL" );          // remove all &not; references that seem to consistently appear from a unix wordpress xml export.
-        str = ReReplace( arguments.str , "&not;" , "" , "ALL" );         // remove all &not; references that seem to consistently appear from a unix wordpress xml export.
-
-        
-       
         return str;
     }
+
+
+    function xmlFormat2(inString) {
 
     /**
      * Similar to xmlFormat() but replaces all characters not on the &quot;good&quot; list as opposed to characters specifically on the &quot;bad&quot; list.
@@ -212,8 +220,8 @@
     * @author Samuel Neff (sam@serndesign.com) 
     * @version 1, January 12, 2004 
      */
-    function xmlFormat2(inString) {
-       
+
+
        var goodChars = "!@##$%^*()0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~[]{} ;:,./?\| -_=+#chr(13)##chr(10)##chr(9)#" ;
        var i = 1;
        var c = "";     
@@ -233,5 +241,45 @@
        return s;
     }
     </cfscript>
+
+	<cffunction name="importImages" output="true" returntype="any">
+        <cfargument name = "str" />
+        <cfargument name = "rc" />
+
+        <!--- let's scan the html for any <img> tags using jsoup --->
+        <cfscript>
+
+            paths = arrayNew(1);
+            paths[1] = expandPath("jsoup-1.7.2.jar");
+
+            loader      = createObject("component", "mura.javaloader.JavaLoader").init(paths);
+            jsoup       = loader.create("jsoup").init(paths);
+
+            //jsoup       = createObject("java", "org.jsoup.Jsoup");
+            doc         = jsoup.parse(arguments.str);
+            imagelinks  = doc.select("img"); 
+        </cfscript>
+
+         <!--- let's loop through the images we found, download them to the Mura Site asset folder and then link there--->
+        <cfloop index = "image" array = "#imagelinks#" >
+        <cfoutput>
+
+            <!------>
+            
+            <cfset local.imageFileName= listFirst(ListLast(#image.attr('src')#,"/\"),"?") /> 
+            <cfset local.writePath = "#expandpath( "./../../" )##rc.siteid#/assets/Image/" />
+            <cfdump var="#local#" />
+            
+            <cfimage action = "write" source = "#image.attr('src')#" destination="#local.writepath##currentFile#" overwrite="true" />
+
+
+            <!--- #e.attr("src")# --- Title: #e.attr("title")# --- Alt: #e.attr("alt")#<br/>
+            to set do e.attr("src", "new value")# --->
+	    </cfoutput>
+        </cfloop>
+
+
+    </cffunction>
+
 
 </cfcomponent>
