@@ -77,7 +77,7 @@
                             content.setCredits(item["dc:creator"].xmlText);
                             content.setApproved(1);							
                             content.setSiteID(rc.$.event('siteID'));
-                            content.setBody( cleanWPPost(  item["content:encoded"].xmlText ) );
+                            content.setBody( cleanWPPost(  item["content:encoded"].xmlText , rc ) );
 
                             // Set the post status in WP to decide whether to make the post visible in Wordpress or not.
                             if(item["wp:status"].xmlText IS "publish") {
@@ -204,7 +204,7 @@
         arguments.str = ReReplace( arguments.str , "&not;" , "" , "ALL" );      // remove all &not; references that seem to consistently appear from a unix wordpress xml export.
 
 
-        arguments.str = importImages(arguments.str);
+        arguments.str = importImages(arguments.str, rc);
 
         return str;
     }
@@ -242,41 +242,43 @@
     }
     </cfscript>
 
-	<cffunction name="importImages" output="true" returntype="any">
+	<cffunction name="importImages" output="false" returntype="any">
         <cfargument name = "str" />
         <cfargument name = "rc" />
 
         <!--- let's scan the html for any <img> tags using jsoup --->
         <cfscript>
 
+            //use Mura's Javaloader to load Jsoup.
             paths = arrayNew(1);
             paths[1] = expandPath("jsoup-1.7.2.jar");
 
             loader      = createObject("component", "mura.javaloader.JavaLoader").init(paths);
             jsoup       = loader.create("org.jsoup.Jsoup");
 
-            //jsoup       = createObject("java", "org.jsoup.Jsoup");
+            //parse the provided content
             doc         = jsoup.parse(arguments.str);
             imagelinks  = doc.select("img"); 
         </cfscript>
 
-         <!--- let's loop through the images we found, download them to the Mura Site asset folder and then link there--->
+         <!--- let's loop through the images jsoup finds, download them to the Mura Site asset folder and then update the link in the html--->
         <cfloop index = "image" array = "#imagelinks#" >
         <cfoutput>
 
-            <cfset local.imageFileName= listFirst(ListLast(#image.attr('src')#,"/\"),"?") /> 
+            <!--- set the disk paths for the file path and name we'll have to write out locally --->
             <cfset local.writePath = "#expandpath( "./../../" )#f/assets/Image/" />
-            <cfdump var="#local#" />
+            <cfset local.imageFileName= listFirst(ListLast(#image.attr('src')#,"/\"),"?") /> 
             
             <cfimage action = "write" source = "#image.attr('src')#" destination="#local.writepath##local.imageFileName#" overwrite="true" />
 
-
+            <cfset #image.attr('src', '#rc.$.siteConfig('assetPath')#/Assets/Image/#local.imageFileName#')# />
+            
             <!--- #e.attr("src")# --- Title: #e.attr("title")# --- Alt: #e.attr("alt")#<br/>
             to set do e.attr("src", "new value")# --->
 	    </cfoutput>
         </cfloop>
 
-        <cfreturn arguments.str />
+        <cfreturn doc />
 
     </cffunction>
 
