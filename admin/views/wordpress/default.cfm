@@ -37,6 +37,11 @@
     <br/><br/>
     Import Wordpress blog comments: <input type = "checkbox" name = "importComments" value = "true" checked />--->
     </p>
+    <p>
+    Import Images: Images are uploaded to the #rc.siteid#/Asset/Images folder.  Currently there is no support for WP caption importing as it's not standard HTML.
+    </p>
+
+
     </blockquote>
 
     <h3>Select your Wordpress XML file to upload</h3>

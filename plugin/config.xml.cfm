@@ -3,7 +3,7 @@
 	<package>MuraConverter</package>
 	<directoryFormat>packageOnly</directoryFormat>
 	<loadPriority>5</loadPriority>
-	<version>0.2</version>
+	<version>0.3</version>
 	<provider>Greg Moser</provider>
 	<providerURL>http://www.gregmoser.com</providerURL>
 	<category>Application</category>
