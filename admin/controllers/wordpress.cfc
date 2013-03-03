@@ -176,14 +176,14 @@
     // function to reverse HTMLEditFormat  -- not using at the moment but it's here for inspiration for cleanWPPost()
     function HtmlUnEditFormat( str )
     {
-        var lEntities =  "&##xE7;,&##xF4;,&##xE2;,&Icirc;,&Ccedil;,&Egrave;,&Oacute;,&Ecirc;,&OElig,&Acirc;,&laquo;,&raquo;,&Agrave;,&Eacute;,&le;,&yacu    te;,&chi;,&sum;,&prime;,&yuml;,&sim;,&beta;,&lceil;,&ntilde;,&szlig;,&bdquo;,&acute;,&middot;,&ndash;,&sigmaf;,&reg;,&dagger;,&oplus;,&otilde;,&eta;,&rceil;,&oacute;,&shy;,&gt;,&phi;,&ang;,&rlm;,&alpha;,&cap;,&darr;,&upsilon;,&image;,&sup3;,&rho;,&eacute;,&sup1;,&lt;,&cent;,&cedil;,&pi;,&sup;,&divide;,&fnof;,&iquest;,&ecirc;,&ensp;,&empty;,&forall;,&emsp;,&gamma;,&iexcl;,&oslash;,&not;,&agrave;,&eth;,&alefsym;,&ordm;,&psi;,&otimes;,&delta;,&ouml;,&deg;,&cong;,&ordf;,&lsaquo;,&clubs;,&acirc;,&ograve;,&iuml;,&diams;,&aelig;,&and;,&loz;,&egrave;,&frac34;,&amp;,&nsub;,&nu;,&ldquo;,&isin;,&ccedil;,&circ;,&copy;,&aacute;,&sect;,&mdash;,&euml;,&kappa;,&notin;,&lfloor;,&ge;,&igrave;,&harr;,&lowast;,&ocirc;,&infin;,&brvbar;,&int;,&macr;,&frac12;,&curren;,&asymp;,&lambda;,&frasl;,&lsquo;,&hellip;,&oelig;,&pound;,&hearts;,&minus;,&atilde;,&epsilon;,&nabla;,&exist;,&auml;,&mu;,&frac14;,&nbsp;,&equiv;,&bull;,&larr;,&laquo;,&oline;,&or;,&euro;,&micro;,&ne;,&cup;,&aring;,&iota;,&iacute;,&perp;,&para;,&rarr;,&raquo;,&ucirc;,&omicron;,&sbquo;,&thetasym;,&ni;,&part;,&rdquo;,&weierp;,&permil;,&sup2;,&sigma;,&sdot;,&scaron;,&yen;,&xi;,&plusmn;,&real;,&thorn;,&rang;,&ugrave;,&radic;,&zwj;,&there4;,&uarr;,&times;,&thinsp;,&theta;,&rfloor;,&sub;,&supe;,&uuml;,&rsquo;,&zeta;,&trade;,&icirc;,&piv;,&zwnj;,&lang;,&tilde;,&uacute;,&uml;,&prop;,&upsih;,&omega;,&crarr;,&tau;,&sube;,&rsaquo;,&prod;,&quot;,&lrm;,&spades;" ;
-        var lEntitiesChars = "ç,ô,â,Î,Ç,È,Ó,Ê,Œ,Â,«,»,À,É,?,ý,?,?,?,Ÿ,?,?,?,ñ,ß,„,´,·,–,?,®,‡,?,õ,?,?,ó,­,>,?,?,?,?,?,?,?,?,³,?,é,¹,<,¢,¸,?,?,÷,ƒ,¿,ê,?,?,?,?,?,¡,ø,¬,à,ð,?,º,?,?,?,ö,°,?,ª,‹,?,â,ò,ï,?,æ,?,?,è,¾,&,?,?,“,?,ç,ˆ,©,á,§,—,ë,?,?,?,?,ì,?,?,ô,?,¦,?,¯,½,¤,?,?,?,‘,…,œ,£,?,?,ã,?,?,?,ä,?,¼, ,?,•,?,«,?,?,€,µ,?,?,å,?,í,?,¶,?,»,û,?,‚,?,?,?,”,?,‰,²,?,?,š,¥,?,±,?,þ,?,ù,?,?,?,?,×,?,?,?,?,?,ü,’,?,™,î,?,?,?,˜,ú,¨,?,?,?,?,?,?,›,?,"",?,?";
-        return ReplaceList(arguments.str, lEntities, lEntitiesChars);
+        var lEntities       = "&##xE7;,&##xF4;,&##xE2;,&Icirc;,&Ccedil;,&Egrave;,&Oacute;,&Ecirc;,&OElig,&Acirc;,&laquo;,&raquo;,&Agrave;,&Eacute;,&le;,&yacu    te;,&chi;,&sum;,&prime;,&yuml;,&sim;,&beta;,&lceil;,&ntilde;,&szlig;,&bdquo;,&acute;,&middot;,&ndash;,&sigmaf;,&reg;,&dagger;,&oplus;,&otilde;,&eta;,&rceil;,&oacute;,&shy;,&gt;,&phi;,&ang;,&rlm;,&alpha;,&cap;,&darr;,&upsilon;,&image;,&sup3;,&rho;,&eacute;,&sup1;,&lt;,&cent;,&cedil;,&pi;,&sup;,&divide;,&fnof;,&iquest;,&ecirc;,&ensp;,&empty;,&forall;,&emsp;,&gamma;,&iexcl;,&oslash;,&not;,&agrave;,&eth;,&alefsym;,&ordm;,&psi;,&otimes;,&delta;,&ouml;,&deg;,&cong;,&ordf;,&lsaquo;,&clubs;,&acirc;,&ograve;,&iuml;,&diams;,&aelig;,&and;,&loz;,&egrave;,&frac34;,&amp;,&nsub;,&nu;,&ldquo;,&isin;,&ccedil;,&circ;,&copy;,&aacute;,&sect;,&mdash;,&euml;,&kappa;,&notin;,&lfloor;,&ge;,&igrave;,&harr;,&lowast;,&ocirc;,&infin;,&brvbar;,&int;,&macr;,&frac12;,&curren;,&asymp;,&lambda;,&frasl;,&lsquo;,&hellip;,&oelig;,&pound;,&hearts;,&minus;,&atilde;,&epsilon;,&nabla;,&exist;,&auml;,&mu;,&frac14;,&nbsp;,&equiv;,&bull;,&larr;,&laquo;,&oline;,&or;,&euro;,&micro;,&ne;,&cup;,&aring;,&iota;,&iacute;,&perp;,&para;,&rarr;,&raquo;,&ucirc;,&omicron;,&sbquo;,&thetasym;,&ni;,&part;,&rdquo;,&weierp;,&permil;,&sup2;,&sigma;,&sdot;,&scaron;,&yen;,&xi;,&plusmn;,&real;,&thorn;,&rang;,&ugrave;,&radic;,&zwj;,&there4;,&uarr;,&times;,&thinsp;,&theta;,&rfloor;,&sub;,&supe;,&uuml;,&rsquo;,&zeta;,&trade;,&icirc;,&piv;,&zwnj;,&lang;,&tilde;,&uacute;,&uml;,&prop;,&upsih;,&omega;,&crarr;,&tau;,&sube;,&rsaquo;,&prod;,&quot;,&lrm;,&spades;" ;
+        var lEntitiesChars  = "ç,ô,â,Î,Ç,È,Ó,Ê,Œ,Â,«,»,À,É,?,ý,?,?,?,Ÿ,?,?,?,ñ,ß,„,´,·,–,?,®,‡,?,õ,?,?,ó,­,>,?,?,?,?,?,?,?,?,³,?,é,¹,<,¢,¸,?,?,÷,ƒ,¿,ê,?,?,?,?,?,¡,ø,¬,à,ð,?,º,?,?,?,ö,°,?,ª,‹,?,â,ò,ï,?,æ,?,?,è,¾,&,?,?,“,?,ç,ˆ,©,á,§,—,ë,?,?,?,?,ì,?,?,ô,?,¦,?,¯,½,¤,?,?,?,‘,…,œ,£,?,?,ã,?,?,?,ä,?,¼, ,?,•,?,«,?,?,€,µ,?,?,å,?,í,?,¶,?,»,û,?,‚,?,?,?,”,?,‰,²,?,?,š,¥,?,±,?,þ,?,ù,?,?,?,?,×,?,?,?,?,?,ü,’,?,™,î,?,?,?,˜,ú,¨,?,?,?,?,?,?,›,?,"",?,?";
+        return ReplaceList( arguments.str , lEntities , lEntitiesChars );
     }
 
 
 
-    function cleanWPPost (str,rc) {
+    function cleanWPPost ( str , rc ) {
         /**
             Cleans up Linux generated WordPress XML files that have encoding issues when it comes to linebreaks, etc that show up as extended ascii characters in the XML.
             Since the majority of Wordpress installations are linux based, this type of scenario may come up pretty regularly. 
@@ -194,14 +194,14 @@
          */
 
 
-        arguments.str = ReReplace( arguments.str , "\r" , "" , "ALL" );         // Remove any \r characters (represented as $ in vim) Seems to be needed
-        arguments.str = ReReplace( arguments.str , "\n" , "<br/>" , "ALL" );    // This finds all embedded line breaks inside the file and inserts proper breaks. (represented as ^M in vim).  Seems to be needed
+        arguments.str = ReReplace( arguments.str , "\r"         , ""        , "ALL" );      // Remove any \r characters (represented as $ in vim) Seems to be needed
+        arguments.str = ReReplace( arguments.str , "\n"         , "<br/>"   , "ALL" );      // This finds all embedded line breaks inside the file and inserts proper breaks. (represented as ^M in vim).  Seems to be needed
 
-        arguments.str = ReReplace( arguments.str , "&dagger;" , "" , "ALL" );   // remove all &dagger; references that seem to consistently appear from a unix wordpress xml export.
-        arguments.str = ReReplace( arguments.str , "†" , "" , "ALL" );          // remove all &dagger; references that seem to consistently appear from a unix wordpress xml export.
+        arguments.str = ReReplace( arguments.str , "&dagger;"   , ""        , "ALL" );      // remove all &dagger; references that seem to consistently appear from a unix wordpress xml export.
+        arguments.str = ReReplace( arguments.str , "†"          , ""        , "ALL" );      // remove all &dagger; references that seem to consistently appear from a unix wordpress xml export.
 
-        arguments.str = ReReplace( arguments.str , "¬" , "" , "ALL" );          // remove all &not; references that seem to consistently appear from a unix wordpress xml export.
-        arguments.str = ReReplace( arguments.str , "&not;" , "" , "ALL" );      // remove all &not; references that seem to consistently appear from a unix wordpress xml export.
+        arguments.str = ReReplace( arguments.str , "¬"          , ""        , "ALL" );      // remove all &not; references that seem to consistently appear from a unix wordpress xml export.
+        arguments.str = ReReplace( arguments.str , "&not;"      , ""        , "ALL" );      // remove all &not; references that seem to consistently appear from a unix wordpress xml export.
 
 
         arguments.str = importImages(arguments.str, rc);
@@ -210,7 +210,7 @@
     }
 
 
-    function xmlFormat2(inString) {
+    function xmlFormat2( inString ) {
 
     /**
      * Similar to xmlFormat() but replaces all characters not on the &quot;good&quot; list as opposed to characters specifically on the &quot;bad&quot; list.
@@ -220,7 +220,6 @@
     * @author Samuel Neff (sam@serndesign.com) 
     * @version 1, January 12, 2004 
      */
-
 
        var goodChars = "!@##$%^*()0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~[]{} ;:,./?\| -_=+#chr(13)##chr(10)##chr(9)#" ;
        var i = 1;
@@ -242,7 +241,11 @@
     }
     </cfscript>
 
-	<cffunction name="importImages" output="false" returntype="any">
+    <cffunction name="importImages" output="false" returntype="any">
+        <!---   This fuction searches provided html snippet for img tags, download the embedded images (assuming they have absolute paths)
+                and then uploads them to the mura assets/images folder.  Ideally this shoudl do it through the Mura backend itself,
+                but, it's a bearable start that's better than nothing. --->
+
         <cfargument name = "str" />
         <cfargument name = "rc" />
 
@@ -250,30 +253,29 @@
         <cfscript>
 
             //use Mura's Javaloader to load Jsoup.
-            paths = arrayNew(1);
-            paths[1] = expandPath("jsoup-1.7.2.jar");
+            paths       = arrayNew( 1 );
+            paths[1]    = expandPath( "jsoup-1.7.2.jar" );
 
-            loader      = createObject("component", "mura.javaloader.JavaLoader").init(paths);
-            jsoup       = loader.create("org.jsoup.Jsoup");
+            loader      = createObject( "component" , "mura.javaloader.JavaLoader" ).init( paths );
+            jsoup       = loader.create( "org.jsoup.Jsoup" );
 
             //parse the provided content and select all image tags
-            doc         = jsoup.parse(arguments.str);
-            imagelinks  = doc.select("img"); 
+            doc         = jsoup.parse( arguments.str );
+            imagelinks  = doc.select( "img" ); 
         </cfscript>
 
-         <!--- let's loop through the images jsoup finds, download them to the Mura Site asset folder and then update the link in the html--->
+        <!---   let's loop through the images jsoup finds, download them to the Mura Site asset folder and then update the link in the html
+                to point to the Mura {siteid}/assets/Image/ folder.--->
         <cfloop index = "image" array = "#imagelinks#" >
-        <cfoutput>
-
+            <cfoutput>
             <!--- set the disk paths for the file path and name we'll have to write out locally --->
-            <cfset local.writePath = "#expandpath( "./../../" )##rc.$.siteConfig('siteid')#/assets/Image/" />
-            <cfset local.imageFileName= listFirst(ListLast(#image.attr('src')#,"/\"),"?") /> 
+            <cfset local.writePath      = "#expandpath( "./../../" )##rc.$.siteConfig( 'siteid' )#/assets/Image/"     />
+            <cfset local.imageFileName  = listFirst( listLast(#image.attr('src')# , "/\") , "?" )                         /> 
             
             <!--- download the image and then set it as the attribute --->
-            <cfimage action = "write" source = "#image.attr('src')#" destination="#local.writepath##local.imageFileName#" overwrite="true" />
-            <cfset #image.attr('src', '#rc.$.siteConfig('assetPath')#/Assets/Image/#local.imageFileName#')# />
-            
-	    </cfoutput>
+            <cfimage action = "write" source = "#image.attr( 'src' )#" destination="#local.writepath##local.imageFileName#" overwrite="true"  />
+            <cfset #image.attr( 'src' , '#rc.$.siteConfig( 'assetPath' )#/Assets/Image/#local.imageFileName#' )#                                 />
+            </cfoutput>
         </cfloop>
 
         <cfreturn doc />
