@@ -256,7 +256,7 @@
             loader      = createObject("component", "mura.javaloader.JavaLoader").init(paths);
             jsoup       = loader.create("org.jsoup.Jsoup");
 
-            //parse the provided content
+            //parse the provided content and select all image tags
             doc         = jsoup.parse(arguments.str);
             imagelinks  = doc.select("img"); 
         </cfscript>
@@ -266,15 +266,13 @@
         <cfoutput>
 
             <!--- set the disk paths for the file path and name we'll have to write out locally --->
-            <cfset local.writePath = "#expandpath( "./../../" )#f/assets/Image/" />
+            <cfset local.writePath = "#expandpath( "./../../" )##rc.$.siteConfig('siteid')#/assets/Image/" />
             <cfset local.imageFileName= listFirst(ListLast(#image.attr('src')#,"/\"),"?") /> 
             
+            <!--- download the image and then set it as the attribute --->
             <cfimage action = "write" source = "#image.attr('src')#" destination="#local.writepath##local.imageFileName#" overwrite="true" />
-
             <cfset #image.attr('src', '#rc.$.siteConfig('assetPath')#/Assets/Image/#local.imageFileName#')# />
             
-            <!--- #e.attr("src")# --- Title: #e.attr("title")# --- Alt: #e.attr("alt")#<br/>
-            to set do e.attr("src", "new value")# --->
 	    </cfoutput>
         </cfloop>
 
