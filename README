@@ -11,8 +11,11 @@ Wordpress XML
 WHAT'S NEW
 
 Mar 3/2013
-- FIX: Clean up importing of text -- no longer one big block of text -- wordpress exports using unix control codes that aren't handled in XML/importing the post as nice as they automatically should.  Converter now detects \n and replaces with <br/> to maintain post readbility.
+- FIXED: Clean up importing of text -- no longer one big block of text -- wordpress exports using unix control codes that aren't handled in XML/importing the post as nice as they automatically should.  Converter now detects \n and replaces with <br/> to maintain post readbility.
 - FEATURE: Implemented initial support to import images from Wordpress to the {siteid}/Assets/Image/ folder.  Captions not supported at this time, you'll have to clean them out by hand for the time being.  Updated admin screen to explain how images are uploaded.
+
+Mar 2/2013
+- FIXED: Post status (draft or publish) wasn't being set correctly, it sure is now.
 
 Feb 23/2013
 
