@@ -204,7 +204,7 @@
         arguments.str = ReReplace( arguments.str , "&not;" , "" , "ALL" );      // remove all &not; references that seem to consistently appear from a unix wordpress xml export.
 
 
-        //arguments.str = importImages(arguments.str);
+        arguments.str = importImages(arguments.str);
 
         return str;
     }
@@ -253,7 +253,7 @@
             paths[1] = expandPath("jsoup-1.7.2.jar");
 
             loader      = createObject("component", "mura.javaloader.JavaLoader").init(paths);
-            jsoup       = loader.create("jsoup").init(paths);
+            jsoup       = loader.create("org.jsoup.Jsoup");
 
             //jsoup       = createObject("java", "org.jsoup.Jsoup");
             doc         = jsoup.parse(arguments.str);
@@ -264,13 +264,11 @@
         <cfloop index = "image" array = "#imagelinks#" >
         <cfoutput>
 
-            <!------>
-            
             <cfset local.imageFileName= listFirst(ListLast(#image.attr('src')#,"/\"),"?") /> 
-            <cfset local.writePath = "#expandpath( "./../../" )##rc.siteid#/assets/Image/" />
+            <cfset local.writePath = "#expandpath( "./../../" )#f/assets/Image/" />
             <cfdump var="#local#" />
             
-            <cfimage action = "write" source = "#image.attr('src')#" destination="#local.writepath##currentFile#" overwrite="true" />
+            <cfimage action = "write" source = "#image.attr('src')#" destination="#local.writepath##local.imageFileName#" overwrite="true" />
 
 
             <!--- #e.attr("src")# --- Title: #e.attr("title")# --- Alt: #e.attr("alt")#<br/>
@@ -278,6 +276,7 @@
 	    </cfoutput>
         </cfloop>
 
+        <cfreturn arguments.str />
 
     </cffunction>
 
